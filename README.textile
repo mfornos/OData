@@ -1,0 +1,58 @@
+h1. OData Play! Module
+
+A module that enables exposing REST APIs for Open Data clients.
+
+h2. Open Data
+
+The <a href="http://www.odata.org/">Open Data Protocol</a> (OData) is a Web protocol for querying and updating data that provides a way to unlock your data and free it from silos that exist in applications today.
+
+h2. Preamble
+
+OData for Play! makes use of <a href="http://code.google.com/p/odata4j/">odata4j</a> toolkit which incorporates Jersey as its REST engine. I wished to use the existing play-jersey module by Piero Sartini, unfortunately it hasn't been possible because the version of jersey that includes odata4j is 1.1.5, plus some issues related to class scanning and context path resolution.
+
+h2. Configuration
+
+These are the default values that you can override in @conf/application.conf@
+
+bc.. # OData module
+# ~~~~~
+
+# Context path for OData service
+# odata.context.path=/OData/
+
+# Resources configuration class
+# odata.resource.config.class=com.sun.jersey.api.core.ClasspathResourceConfig
+
+# Authenticator
+# Class that implements play.modules.odata.auth.Authenticator
+# odata.authenticator.class=package.MyCoolAuthenticator
+
+# Producer factory
+# Class that implements org.odata4j.producer.ODataProducerFactory
+# odata.producer.class=play.modules.odata.JPAProducerFactory
+
+# OData JPA producer factory settings
+# odata.jpa.namespace=Play
+# odata.jpa.maxresults=50
+
+h2. Basic Usage
+
+# Create your model.
+# Import OData routes in conf/routes. Add the following line: @*       /                                       module:odata@
+# Start your application.
+# Browse http://127.0.0.1:9000/OData/ you will see the list of your entities
+
+h2. Security
+
+By default all your entities are exposed without any kind of authentication mechanism. To control the access to the OData services you must implement an Authenticator. If your security needs are low you can extend BasicAuthenticator, an Authenticator for http basic that requires login for all http methods except for GET and HEAD.
+
+bc.. public class MyBasicAuthenticator extends BasicAuthenticator {
+   @Override
+   protected Principal login(String user, String password) {
+      return (User.login(user, password))? new GenericPrincipal(user) : null;
+   }	
+}
+
+
+p. //
+ 
