@@ -38,7 +38,7 @@ bc.. # OData module
 h2. Basic Usage
 
 # Create your model.
-# Import OData routes in conf/routes. Add the following line: @*       /                                       module:odata@
+# Import OData routes in @conf/routes@. Add the following line: @*       /                                       module:odata@
 # Start your application.
 # Browse http://127.0.0.1:9000/OData/ you will see the list of your entities
 
@@ -52,7 +52,6 @@ bc.. public class MyBasicAuthenticator extends BasicAuthenticator {
       return (User.login(user, password))? new GenericPrincipal(user) : null;
    }	
 }
-
 
 p. //
  
